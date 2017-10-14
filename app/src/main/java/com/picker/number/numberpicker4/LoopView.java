@@ -42,8 +42,8 @@ public class LoopView extends View {
     private Vibrator vibrator;
 
     private int changingLeftY;
-    private float translateY;
-    private float mDrawnCenterY;
+    private int translateY;
+    private int mDrawnCenterY;
     private int mWheelCenterY;
     private int alpha;
     private int mHalfDrawnItemCount;
@@ -56,15 +56,15 @@ public class LoopView extends View {
     private int mTopBottomTextColor;
     private int mCenterTextColor;
     private int mCenterLineColor;
-    private float mTopLineY;
-    private float mBottomLineY;
+    private int mTopLineY;
+    private int mBottomLineY;
     private int mCurrentIndex;
     private int mInitPosition;
     private int mPaddingLeftRight;
-    private float mPaddingTopBottom;
+    private int mPaddingTopBottom;
     private int mDrawItemsCount;
-    private float mCircularDiameter;
-    private float mCircularRadius;
+    private int mCircularDiameter;
+    private int mCircularRadius;
     private int mWidgetHeight;
     private int mWidgetWidth;
 
@@ -188,13 +188,11 @@ public class LoopView extends View {
         measureTextWidthHeight();
 
         // the length of circle
-        float mCircumference = ((mMaxTextHeight * lineSpacingMultiplier * (mDrawItemsCount - 1)))*2;
+        int mCircumference = (int) ((mMaxTextHeight * lineSpacingMultiplier * (mDrawItemsCount - 1)))*2;
         //the diameter of circle 2πr = cir
-        mCircularDiameter = (float)(mCircumference / Math.PI);
-//        mCircularDiameter = (int) (mCircumference / Math.PI);
+        mCircularDiameter = (int) (mCircumference / Math.PI);
         //the radius of circular
-        mCircularRadius = (float) ((mCircumference/2) / Math.PI);
-//        mCircularRadius = (int) ((mCircumference/2) / Math.PI);
+        mCircularRadius = (int) ((mCircumference/2) / Math.PI);
 
         if (mInitPosition == -1) {
             if (mCanLoop) {
@@ -225,8 +223,7 @@ public class LoopView extends View {
     }
 
      private void computeDrawnCenter() {
-        mDrawnCenterY = (mWheelCenterY - ((mCenterTextPaint.ascent() + mCenterTextPaint.descent()) / 2));
-//        mDrawnCenterY = (int) (mWheelCenterY - ((mCenterTextPaint.ascent() + mCenterTextPaint.descent()) / 2));
+        mDrawnCenterY = (int) (mWheelCenterY - ((mCenterTextPaint.ascent() + mCenterTextPaint.descent()) / 2));
     }
 
     @Override
@@ -254,11 +251,8 @@ public class LoopView extends View {
         mPaddingTopBottom = (mWidgetHeight - mCircularDiameter) / 2;
 
         //topLineY = diameter/2 - itemHeight(mItemHeight)/2 + mPaddingTopBottom
-//        mTopLineY = (int) ((mCircularDiameter - mItemHeight) / 2.0F) + mPaddingTopBottom;
-//        mBottomLineY = (int) ((mCircularDiameter + mItemHeight) / 2.0F) + mPaddingTopBottom;
-
-        mTopLineY =  ((mCircularDiameter - mItemHeight) / 2.0F) + mPaddingTopBottom;
-        mBottomLineY =  ((mCircularDiameter + mItemHeight) / 2.0F) + mPaddingTopBottom;
+        mTopLineY = (int) ((mCircularDiameter - mItemHeight) / 2.0F) + mPaddingTopBottom;
+        mBottomLineY = (int) ((mCircularDiameter + mItemHeight) / 2.0F) + mPaddingTopBottom;
     }
 
     private void vibrationReaction() {
@@ -272,7 +266,6 @@ public class LoopView extends View {
     private void soundReaction() {
 
         audioManager.playSoundEffect(SoundEffectConstants.CLICK, 0.6F);
-
     }
 
     @Override
@@ -355,9 +348,10 @@ public class LoopView extends View {
             mDrawnItemCenterY = mDrawnCenterY + (drawnOffsetPos * mItemHeight) - mTotalScrollY % mItemHeight;
             drawnOffsetPos++;
             // L= å * r -> å = rad
-            float itemHeight = mMaxTextHeight * lineSpacingMultiplier;
+//            float itemHeight = mMaxTextHeight * lineSpacingMultiplier;
+//            Log.d(TAG," itemHeight = " + itemHeight + " mItemHeight = " + mItemHeight);
             //get radian  L = (itemHeight * count - changingLeftY),r = mCircularRadius
-            double radian = (itemHeight * count - changingLeftY) / mCircularRadius;
+            double radian = (mItemHeight * count - changingLeftY) / mCircularRadius;
             // a = rad * 180 / π
             //get angle
             float angle = (float) (radian * 180 / Math.PI);
@@ -370,9 +364,8 @@ public class LoopView extends View {
             } else {
                 // translateY = r - r*cos(å) -
                 //(Math.sin(radian) * mMaxTextHeight) / 2 this is text offset
-                translateY = (float) (mCircularRadius - Math.cos(radian) * mCircularRadius - (Math.sin(radian) * mMaxTextHeight) / 2) + mPaddingTopBottom;
-//                translateY = (int) (mCircularRadius - Math.cos(radian) * mCircularRadius - (Math.sin(radian) * mMaxTextHeight) / 2) + mPaddingTopBottom;
-
+                translateY = (int) (mCircularRadius - Math.cos(radian) * mCircularRadius - (Math.sin(radian) * mMaxTextHeight) / 2) + mPaddingTopBottom;
+//                Log.d("TAG", "alpha = " + alpha );
                 if (hasAtmospheric) {
                     alpha = (int) ((mDrawnCenterY - Math.abs(mDrawnCenterY - mDrawnItemCenterY )) * 1.0F / mDrawnCenterY * 255);
 
@@ -380,8 +373,7 @@ public class LoopView extends View {
                     alpha = alpha + 50;
                     alpha = Math.round(alpha*0.5F);
 
-                    Log.d("TAG", "alpha = " + alpha );
-//                    mTopBottomTextPaint.setAlpha(alpha);
+                    mTopBottomTextPaint.setAlpha(alpha);
                 }
 
                 canvas.translate(0.0F, translateY);
@@ -395,26 +387,29 @@ public class LoopView extends View {
                     canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mTopBottomTextPaint);
                     canvas.restore();
                     //it responses for top central part in moving
-                    canvas.save();
-                    canvas.clipRect(0, mTopLineY - translateY, mWidgetWidth, (int) (itemHeight));
-                    canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mCenterTextPaint);
-                    canvas.restore();
+                    if (translateY + mMaxTextHeight >= mTopLineY) {
+                        canvas.save();
+                        canvas.clipRect(0, mTopLineY - translateY, mWidgetWidth, (int) (mItemHeight));
+                        canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mCenterTextPaint);
+                        canvas.restore();
+                    }
                 } else if (mMaxTextHeight + translateY >= mBottomLineY) {
                     //draw text y between  mTopLineY -> mBottomLineY ,include incomplete text
                     //it responses for bottom central part in moving
-                    canvas.save();
-                    canvas.clipRect(0, 0, mWidgetWidth, mBottomLineY - translateY);
-                    canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mCenterTextPaint);
-                    canvas.restore();
+                    if(translateY<=mBottomLineY) {
+                        canvas.save();
+                        canvas.clipRect(0, 0, mWidgetWidth, mBottomLineY - translateY);
+                        canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mCenterTextPaint);
+                        canvas.restore();
+                    }
                     //it responses for bottom part
                     canvas.save();
-                    canvas.clipRect(0, mBottomLineY - translateY, mWidgetWidth, itemHeight);
-//                    canvas.clipRect(0, mBottomLineY - translateY, mWidgetWidth, (int) (itemHeight));
+                    canvas.clipRect(0, mBottomLineY - translateY, mWidgetWidth, (int) (mItemHeight));
                     canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mTopBottomTextPaint);
                     canvas.restore();
                 } else if (translateY >= mTopLineY && mMaxTextHeight + translateY <= mBottomLineY) {
                     //draw center complete text
-                    canvas.clipRect(0, 0, mWidgetWidth, (int) (itemHeight));
+                    canvas.clipRect(0, 0, mWidgetWidth, (int) (mItemHeight));
                     canvas.drawText(itemCount[count], mPaddingLeftRight, mMaxTextHeight, mCenterTextPaint);
                     //center one indicate selected item
                     mSelectedItem = mDataList.indexOf(itemCount[count]);
@@ -471,6 +466,7 @@ public class LoopView extends View {
     public final void setPaddingLeftRight(int padding){
         this.mPaddingLeftRight = padding;
     }
+
     public void setInitPosition(int initPosition) {
         this.mInitPosition = initPosition;
         invalidate();
@@ -620,13 +616,13 @@ public class LoopView extends View {
             }
             if (Math.abs(realTotalOffset) <= 0) {
                 cancelSchedule();
-                mHandler.sendEmptyMessage(MSG_SELECTED_ITEM);
+
                 return;
             } else {
                 if(properlyPlaced) {
                     mTotalScrollY = mTotalScrollY + realOffset;
                     mHandler.sendEmptyMessage(MSG_INVALIDATE);
-
+                    mHandler.sendEmptyMessage(MSG_SELECTED_ITEM);
                     realTotalOffset = realTotalOffset - realOffset;
                 }
                 return;
@@ -672,6 +668,7 @@ public class LoopView extends View {
 
             if (!mCanLoop) {
                 float itemHeight = lineSpacingMultiplier * mMaxTextHeight;
+
                 if (mTotalScrollY <= (int) ((float) (-mInitPosition) * itemHeight)) {
                     velocity = 40F;
                     mTotalScrollY = (int) ((float) (-mInitPosition) * itemHeight);
