@@ -22,7 +22,7 @@
             android:background="#ccffffff">
 
         </View>
-        <com.picker.number.numberpicker4.custom_text.CustomTextViewHelveticaLight
+        <com.picker.number.custom_text.CustomTextViewHelveticaLight
             android:id="@+id/tv_description"
 
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
             android:orientation="vertical"
             android:paddingLeft="20dp">
 
-            <com.picker.number.numberpicker4.custom_text.CustomTextViewHelveticaLight
+            <com.picker.number.custom_text.CustomTextViewHelveticaLight
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"
@@ -76,19 +76,19 @@
                 android:layout_height="180dp"
                 android:orientation="horizontal">
 
-                <com.picker.number.numberpicker4.LoopView
+                <com.picker.number.LoopView
                     android:id="@+id/hundreds"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     loopview:lineColor="#ccffffff"/>
 
-                <com.picker.number.numberpicker4.LoopView
+                <com.picker.number.LoopView
                     android:id="@+id/dozens"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     loopview:lineColor="#ccffffff"/>
 
-                <com.picker.number.numberpicker4.LoopView
+                <com.picker.number.LoopView
                     android:id="@+id/units"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             android:orientation="vertical"
             android:paddingRight="20dp">
 
-            <com.picker.number.numberpicker4.custom_text.CustomTextViewHelveticaLight
+            <com.picker.number.custom_text.CustomTextViewHelveticaLight
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -123,7 +123,7 @@
                 android:orientation="horizontal"
                 android:paddingRight="0dp">
 
-                <com.picker.number.numberpicker4.LoopView
+                <com.picker.number.LoopView
                     android:id="@+id/count"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
 
             </View>
 
-            <com.picker.number.numberpicker4.custom_text.CustomTextViewHelveticaLight
+            <com.picker.number.custom_text.CustomTextViewHelveticaLight
                 android:id="@+id/tv_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
             android:gravity="center"
             android:paddingTop="20dp">
 
-            <com.picker.number.numberpicker4.custom_text.CustomTextViewHelveticaRoman
+            <com.picker.number.custom_text.CustomTextViewHelveticaRoman
                 android:id="@+id/tv_weight"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"

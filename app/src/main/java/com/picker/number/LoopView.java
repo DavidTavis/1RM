@@ -1,4 +1,4 @@
-package com.picker.number.numberpicker4;
+package com.picker.number;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
+
+import com.picker.number.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +127,7 @@ public class LoopView extends View {
             array.recycle();
         }
 
+        //This variable is responsible for the distance between items
         lineSpacingMultiplier = 1.7F;
 
         mRectDrawn = new Rect();
@@ -340,23 +343,20 @@ public class LoopView extends View {
 
         int drawnOffsetPos = -mHalfDrawnItemCount;
 
+        double radian;
+        float angle;
         count = 0;
         changingLeftY = (int) (mTotalScrollY % (mItemHeight));
+
         while (count < mDrawItemsCount) {
             canvas.save();
 
             mDrawnItemCenterY = mDrawnCenterY + (drawnOffsetPos * mItemHeight) - mTotalScrollY % mItemHeight;
             drawnOffsetPos++;
-            // L= å * r -> å = rad
-//            float itemHeight = mMaxTextHeight * lineSpacingMultiplier;
-//            Log.d(TAG," itemHeight = " + itemHeight + " mItemHeight = " + mItemHeight);
-            //get radian  L = (itemHeight * count - changingLeftY),r = mCircularRadius
-            double radian = (mItemHeight * count - changingLeftY) / mCircularRadius;
-            // a = rad * 180 / π
+            radian = (mItemHeight * count - changingLeftY) / mCircularRadius;
             //get angle
-            float angle = (float) (radian * 180 / Math.PI);
+            angle = (float) (radian * 180 / Math.PI);
 
-//            Log.d("TAG", "angle = " + angle);
             //when angle >= 180 || angle <= 0 don't draw
             if (angle >= 180F || angle <= 0F) {
                 canvas.restore();
@@ -365,7 +365,6 @@ public class LoopView extends View {
                 // translateY = r - r*cos(å) -
                 //(Math.sin(radian) * mMaxTextHeight) / 2 this is text offset
                 translateY = (int) (mCircularRadius - Math.cos(radian) * mCircularRadius - (Math.sin(radian) * mMaxTextHeight) / 2) + mPaddingTopBottom;
-//                Log.d("TAG", "alpha = " + alpha );
                 if (hasAtmospheric) {
                     alpha = (int) ((mDrawnCenterY - Math.abs(mDrawnCenterY - mDrawnItemCenterY )) * 1.0F / mDrawnCenterY * 255);
 
@@ -422,7 +421,6 @@ public class LoopView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionevent) {
-
         switch (motionevent.getAction()) {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -433,6 +431,7 @@ public class LoopView extends View {
                 break;
             default:
                 if (!mGestureDetector.onTouchEvent(motionevent)) {
+                    Log.d(TAG,"onTouchEvent default motionevent = " + motionevent.toString());;
                     startSmoothScrollTo(false);
                 }
         }
@@ -504,6 +503,7 @@ public class LoopView extends View {
     }
 
     private void startSmoothScrollTo(Boolean properlyPlaced) {
+        Log.d(TAG,"startSmoothScrollTo(Boolean properlyPlaced)");
         int offset = (int) (mTotalScrollY % (mItemHeight));
         cancelSchedule();
         //Third parameter response about speed of returning value on its properly place (center between top and bottom line)
@@ -511,6 +511,7 @@ public class LoopView extends View {
     }
 
     private void startSmoothScrollTo(float velocityY) {
+        Log.d(TAG,"startSmoothScrollTo(float velocityY)");
         cancelSchedule();
         int velocityFling = 20;
         mScheduledFuture = mExecutor.scheduleWithFixedDelay(new FlingRunnable(velocityY), 0, velocityFling, TimeUnit.MILLISECONDS);
@@ -531,13 +532,14 @@ public class LoopView extends View {
 
         @Override
         public final boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            Log.d(TAG,"LoopViewGestureListener onFling");
             startSmoothScrollTo(velocityY);
             return true;
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-
+            Log.d(TAG,"LoopViewGestureListener onScroll");
             mTotalScrollY = (int) ((float) mTotalScrollY + distanceY);
             if (!mCanLoop) {
                 int initPositionCircleLength = (int) (mInitPosition * (mItemHeight));
@@ -551,7 +553,6 @@ public class LoopView extends View {
                     mTotalScrollY = circleLength;
                 }
             }
-
             invalidate();
             return true;
         }
@@ -584,6 +585,7 @@ public class LoopView extends View {
         boolean properlyPlaced;
 
         public HalfHeightRunnable(int offset, boolean properlyPlaced) {
+            Log.d(TAG,"HalfHeightRunnable");
             this.offset = offset;
             realTotalOffset = Integer.MAX_VALUE;
             realOffset = 0;
@@ -592,7 +594,7 @@ public class LoopView extends View {
 
         @Override
         public void run() {
-
+            Log.d(TAG,"run()");
             //first in
             if (realTotalOffset == Integer.MAX_VALUE) {
                 if ((float) offset > mItemHeight / 2.0F) {
@@ -616,13 +618,13 @@ public class LoopView extends View {
             }
             if (Math.abs(realTotalOffset) <= 0) {
                 cancelSchedule();
-
+                mHandler.sendEmptyMessage(MSG_SELECTED_ITEM);
                 return;
             } else {
                 if(properlyPlaced) {
                     mTotalScrollY = mTotalScrollY + realOffset;
                     mHandler.sendEmptyMessage(MSG_INVALIDATE);
-                    mHandler.sendEmptyMessage(MSG_SELECTED_ITEM);
+
                     realTotalOffset = realTotalOffset - realOffset;
                 }
                 return;

@@ -1,4 +1,4 @@
-package com.picker.number.numberpicker4;
+package com.picker.number;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -15,6 +15,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.picker.number.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loopViewReps.setTextSize(23);//must be called before setDateList
         loopViewReps.setDataList(getListReps());
         loopViewReps.setCanLoop(true);
+        loopViewReps.setCanVibrate(pref.getBoolean("vibration",true));
+        loopViewReps.setCanVolume(pref.getBoolean("volume",true));
     }
 
     private void initUnits() {
@@ -150,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loopViewUnits.setPaddingLeftRight(12);
         loopViewUnits.setTextSize(23);//must be called before setDateList
         loopViewUnits.setDataList(getList(0,9));
+        loopViewUnits.setCanVibrate(pref.getBoolean("vibration",true));
+        loopViewUnits.setCanVolume(pref.getBoolean("volume",true));
     }
 
     private void initDozens() {
@@ -167,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loopViewDozens.setPaddingLeftRight(12);
         loopViewDozens.setTextSize(23);//must be called before setDateList
         loopViewDozens.setDataList(getList(0,9));
+        loopViewDozens.setCanVibrate(pref.getBoolean("vibration",true));
+        loopViewDozens.setCanVolume(pref.getBoolean("volume",true));
     }
 
     private void initHundreds() {
@@ -184,6 +191,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loopViewHundreds.setPaddingLeftRight(12);
         loopViewHundreds.setTextSize(23);//must be called before setDateList
         loopViewHundreds.setDataList(getList(0,9));
+        loopViewHundreds.setCanVibrate(pref.getBoolean("vibration",true));
+        loopViewHundreds.setCanVolume(pref.getBoolean("volume",true));
     }
 
     private void calculateWeight() {
@@ -292,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(pref.getBoolean("vibration",true)){
                     pref.edit().putBoolean("vibration",false).commit();
                     loopViewReps.setCanVibrate(false);
+
                     loopViewUnits.setCanVibrate(false);
                     loopViewDozens.setCanVibrate(false);
                     loopViewHundreds.setCanVibrate(false);
