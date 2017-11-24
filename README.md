@@ -15,7 +15,8 @@ ScheduledExecutorService, Handler, GestureDetector, Canvas, Paint, Rect, Vibrato
 ## Description
 
 ```bash
-1 RM calculator allows you to calculate the weight of the rod for the required number of repetitions, depending on the single maximum. Weightlifting calculator. 
+1 RM calculator allows you to calculate the weight of the barbell for the required number of repetitions, 
+depending on the weight of barbell on single maximum. Weightlifting calculator. 
 ```
 
 ## Created by
