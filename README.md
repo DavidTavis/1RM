@@ -6,11 +6,6 @@
 <h1 align="center">1 RM calculator</h1>
 
 
-
-<p align="center">
-  <img src="extras/1RM.gif" width="100%" />
-</p>
-
 ## Stack of technologies
 
 ```sh
