@@ -6,17 +6,17 @@
 <h1 align="center">1 RM calculator. Weightlifting calculator</h1>
 
 
-## Stack of technologies
-
-```sh
-ScheduledExecutorService, Handler, GestureDetector, Canvas, Paint, Rect, Vibrator, AudioManager
-```
-
 ## Description
 
 ```bash
 1 RM calculator allows you to calculate the weight of the barbell for the required number of repetitions, 
 depending on the weight of barbell on single maximum.  
+```
+
+## Stack of technologies
+
+```sh
+ScheduledExecutorService, Handler, GestureDetector, Canvas, Paint, Rect, Vibrator, AudioManager
 ```
 
 ## Google Play
