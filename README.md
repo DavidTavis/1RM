@@ -19,5 +19,8 @@ ScheduledExecutorService, Handler, GestureDetector, Canvas, Paint, Rect, Vibrato
 depending on the weight of barbell on single maximum. Weightlifting calculator. 
 ```
 
+## Google Play
+[Link on market](https://play.google.com/store/apps/details?id=com.picker.number&hl=ru)  
+
 ## Created by
 [David Tarielashvili](https://www.facebook.com/profile.php?id=100004118055733&ref=bookmarks)
