@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/DavidTavis/1RM" target="_blank">
-    <img width="200"src="extras/1RM.gif">
+    <img width="300"src="extras/1RM.gif">
   </a>
 </p>
 <h1 align="center">1 RM calculator</h1>
@@ -15,7 +15,7 @@ ScheduledExecutorService, Handler, GestureDetector, Canvas, Paint, Rect, Vibrato
 ## Description
 
 ```bash
-Description
+1 RM calculator allows you to calculate the weight of the rod for the required number of repetitions, depending on the single maximum. Weightlifting calculator. 
 ```
 
 ## Created by
