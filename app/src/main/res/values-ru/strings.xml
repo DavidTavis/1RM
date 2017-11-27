@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">1 RM Calculator</string><string name="action_settings">Settings</string>
+    <string name="description">Введите вес штанги в одноповторном максимуме и нужное количество повторений</string>
+    <string name="max_weight">Макс. вес x1:</string>
+    <string name="needed_reps">Нужное кол. повт.:</string>
+    <string name="result">Для выбранного количества повторов вес штанги составит:</string>
+</resources>
